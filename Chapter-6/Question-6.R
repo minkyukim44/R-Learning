@@ -90,6 +90,9 @@ mpg_new %>%
 
 # Q-6-last
 
+library(dplyr)
+?dplyr
+
 midwest <- as.data.frame(ggplot2::midwest)
 
 midwest_new <- midwest
@@ -98,7 +101,16 @@ midwest_new <- midwest_new %>%
                mutate(adult_ratio = popadults/poptotal*100,
                       adult_size = ifelse(adult_ratio >= 40, "large", ifelse(adult_ratio >= 30, "middle", "small"))) %>% 
                arrange(desc(adult_ratio))
-midwest_new
+View(midwest_new)
 
 midwest_new %>% 
-            group_by(adult_size) %>% summarise(n = n())
+            group_by(adult_size) %>% 
+            summarise(n = n())
+
+midwest_asian <- 
+            midwest_new %>% 
+                mutate(asian_ratio = popasian/poptotal*100) %>% 
+                arrange(asian_ratio) %>% 
+                select(state,county,asian_ratio) %>% 
+                head(10)
+View(midwest_asian)
